@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<title>
+
+</title>
+
+<body>
+    <h1>Basic Calculator</h1>
+
+    <fieldset>
+        <legend>Calculator</legend>
+        <input type="number" id="x" oninput="setValueX(event)" value="0">
+        <!-- <input type="number" id="y" oninput="setValueY(event)" value="0"> -->
+        Last Value:
+        <output id="result">0</output>
+        <p id="memory">Memory: 0</p>
+
+        <button onclick="clearCal()">Clear</button>
+
+    </fieldset>
+
+    <fieldset>
+        Basic:
+        <button onclick="add(result,valueX)">Add</button>
+        <button onclick="subtract(result,valueX)">Subtract</button>
+        <button onclick="multiply(result,valueX)">Multiply</button>
+        <button onclick="divide(result,valueX)">Divide</button>
+    </fieldset>
+    <fieldset>
+        Memory:
+        <button onclick="memPlus()">M+</button>
+        <button onclick="memSub()">M-</button>
+        <button onclick="memClear()">MClear</button>
+        <button onclick="memRecall()">Recall</button>
+    </fieldset>
+    <fieldset>
+        Signs:
+        <button onclick="negative(valueX)">Negative</button>
+        <button onclick="abs(valueX)">Abs()</button>
+    </fieldset>
+    <fieldset>
+        Powers:
+        <button onclick="pow(valueX,2)">pow^2</button>
+        <button onclick="pow(result,valueX)">pow^n</button>
+    </fieldset>
+    <fieldset>
+        Square Roots:
+        <button onclick="sqrt(valueX,2)">sqrt_2</button>
+        <button onclick="sqrt(result,valueX)">sqrt_n</button>
+    </fieldset>
+
+    <h3>History</h3>
+    <ul id="historyList">
+
+    </ul>
+
+</body>
+
+<script>
+
+    let history = [];
+    let valueX = 0;
+    // let valueY = 0;
+    let result = 0;
+    let mem = 0;
+
+    function setValueX(event) {
+        valueX = parseFloat(event.target.value)
+    }
+
+    // function setValueY(event) {
+    //     valueY = parseInt(event.target.value)
+    // }
+
+    function memPlus() {
+        mem += result;
+        setMemory()
+    }
+
+    function memSub() {
+        mem -= result;
+        setMemory()
+    }
+
+    function memClear() {
+        mem = 0;
+        setMemory()
+    }
+
+    function clearCal() {
+        valueX = 0;
+        document.getElementById("x").value = 0;
+        // valueY = 0;
+        // document.getElementById("y").value = 0;
+        result = 0;
+        document.getElementById("result").innerHTML = 0;
+    }
+
+    function memRecall() {
+        valueX = document.getElementById("x").value = mem;
+    }
+
+    function setMemory() {
+        document.getElementById("memory").innerHTML = "Memory: " + mem;
+    }
+
+    function add(x, y) {
+        result = x + y;
+        pushState(result);
+    }
+
+    function subtract(x, y) {
+        result = x - y;
+        pushState(result);
+    }
+
+    function multiply(x, y) {
+        result = x * y;
+        pushState(result);
+    }
+
+    function divide(x, y) {
+        result = x / y;
+        pushState(result);
+    }
+
+    function negative(x) {
+        result = -x;
+        pushState(result);
+    }
+
+    function abs(x) {
+        result = Math.abs(x);
+        pushState(result);
+    }
+
+    function sqrt(x) {
+        result = Math.sqrt(x);
+        pushState(result);
+    }
+
+    function pow(x, y) {
+        result = Math.pow(x, y);
+        pushState(result);
+    }
+
+    function pushState(result) {
+        history.unshift(result);
+        const historyListElement = document.getElementById("historyList")
+
+        document.getElementById("result").innerHTML = result;
+        let historyListHTML = "";
+
+        for (const item of history) {
+            historyListHTML += `<li>${item}</li>`
+        }
+
+        historyListElement.innerHTML = historyListHTML;
+
+        valueX = document.getElementById("x").value = result;
+    }
+
+</script>
+
+
+</html>
